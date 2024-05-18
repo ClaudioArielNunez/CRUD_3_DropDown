@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CRUD_2_DropDown.Models
 {
@@ -6,6 +7,8 @@ namespace CRUD_2_DropDown.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Nombre { get; set; }
+
+        [DisplayName("Categoría")]
+        public string? Nombre { get; set; }
     }
 }

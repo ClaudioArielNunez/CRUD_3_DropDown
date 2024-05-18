@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Producto>
+
+@{
+    ViewData["Title"] = "Lista de Productos";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<p>
+    <a asp-action="Crear" class="btn btn-primary btn-sm">Crear Nuevo</a>
+</p>
+<table class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.Categorias.Nombre)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null && Model.Any())
+        { 
+            @foreach (var producto in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => producto.Nombre)</td>
+                    <td>@Html.DisplayFor(model => producto.Precio)</td>
+                    <td>@Html.DisplayFor(model => producto.Cantidad)</td>
+                    <td>@Html.DisplayFor(model => producto.Categorias.Nombre)</td>
+                    <td>
+                        <a asp-action="Editar" asp-route-id="@producto.Id" class="btn btn-success btn-sm">Editar</a>
+                        <a asp-action="Eliminar" asp-route-id="@producto.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+            }        
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">
+                    @* 5 columnas *@
+                    <div>
+                        Productos no disponibles en base de datos!
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
