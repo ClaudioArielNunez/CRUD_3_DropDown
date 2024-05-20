@@ -71,6 +71,7 @@ namespace CRUD_2_DropDown.Controllers
         [HttpPost]
         public IActionResult Editar(Producto producto)
         {
+            //ModelState.Remove("Categorias");
             if (ModelState.IsValid)
             {
                 context.Productos.Update(producto);
