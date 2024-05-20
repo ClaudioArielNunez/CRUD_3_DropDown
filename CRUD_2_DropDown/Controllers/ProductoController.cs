@@ -42,10 +42,42 @@ namespace CRUD_2_DropDown.Controllers
 
         [HttpPost]
         public IActionResult Crear(Producto producto)
-        {            
-            context.Productos.Add(producto);
-            context.SaveChanges();
-            return RedirectToAction("Index");
+        {
+            if (ModelState.IsValid)
+            {
+                context.Productos.Add(producto);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();            
+        }
+
+        [HttpGet]
+        public IActionResult Editar(int? id) //permite que el parámetro id sea null
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            CargarCategorias();
+            var producto = context.Productos.FirstOrDefault(x => x.Id == id);
+            if(producto == null)
+            {
+                return NotFound();
+            }
+            return View(producto);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(Producto producto)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Productos.Update(producto);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
