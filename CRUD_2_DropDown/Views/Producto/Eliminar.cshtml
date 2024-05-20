@@ -1,0 +1,32 @@
+﻿@model Producto
+
+@{
+    ViewData["Title"] = "Eliminar Producto";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<form asp-action="Eliminar">
+    <input type="hidden" asp-for="Id"/>
+    <div class="mb-2">
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" readonly="readonly"/>        
+    </div>
+    <div class="mb-2">
+        <label asp-for="Precio" class="form-label">Precio</label>
+        <input asp-for="Precio" class="form-control" readonly="readonly"/>        
+    </div>
+    <div class="mb-2">
+        <label asp-for="Cantidad" class="form-label">Cantidad</label>
+        <input asp-for="Cantidad" class="form-control" readonly="readonly"/>        
+    </div>
+    <div class="mb-2">
+        <label asp-for="Categorias" class="form-label"></label>
+        <select asp-for="CategoriaId" disabled asp-items="ViewBag.Categorias" class="form-control">
+            <options>--Seleccione Categoría--</options>
+        </select>        
+    </div>
+    <div class="mb-2">
+        <input type="submit" onclick="return confirm('¿Confirma borrado?')" value="Eliminar" class="btn btn-danger"/>
+    </div>
+</form>
