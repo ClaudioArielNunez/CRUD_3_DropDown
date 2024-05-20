@@ -71,14 +71,56 @@ namespace CRUD_2_DropDown.Controllers
         [HttpPost]
         public IActionResult Editar(Producto producto)
         {
-            //ModelState.Remove("Categorias");
+            ModelState.Remove("Categorias");//*
             if (ModelState.IsValid)
             {
                 context.Productos.Update(producto);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            return View(producto);//retornamos el producto a editar
+        }
+        /*
+         El problema surge porque ModelState intenta validar todas las propiedades del modelo, 
+        incluida Categorias. Si Categorias no está presente en los datos enviados (lo cual es 
+        el caso aquí, ya que solo envías CategoriaId), ModelState puede marcarlo como inválido,
+        porque no puede vincular un valor a Categorias.
+         Al eliminar Categorias del ModelState, se asegura que esta propiedad no afecte la
+        validación general del modelo. 
+        Si Categorias es una propiedad de navegación en Entity Framework que no se necesita validar 
+        puede ser conveniente eliminarla del ModelState.
+        Si la vista de edición de Producto incluye un DropDownList para seleccionar categorías,
+        pero no envía la propiedad Categorias directamente como parte del formulario, 
+        el ModelState puede marcar la propiedad como inválida si espera datos para ella.
+         */
+        [HttpGet]
+        public IActionResult Eliminar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            CargarCategorias();
+            var producto = context.Productos.FirstOrDefault(x => x.Id == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+            return View(producto);
+        }
+
+        [HttpPost]
+        public IActionResult Eliminar(Producto producto)
+        {
+            ModelState.Remove("Categorias");
+            if (ModelState.IsValid)
+            {
+                context.Productos.Remove(producto);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View();
+            
         }
     }
 }
